@@ -29,6 +29,10 @@
 #define UART_FLOWCTRL_HAR 1
 #define UART_FLOWCTRL_SOF 2
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 /*
 *打开串口
 */
@@ -54,4 +58,8 @@ int UART0_receive(int fd,char * rcv_buffer,ssize_t data_len);
 */
 int UART0_send(int fd,char * send_buffer,ssize_t data_len);
 
-#endif
+#ifdef __cplusplus
+}
+#endif /*__cplusplus*/
+
+#endif /*_COM_H_*/

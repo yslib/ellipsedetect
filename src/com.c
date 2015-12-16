@@ -28,7 +28,7 @@ void UART0_close(int fd)
 int UART0_set(int fd,int speed,int flow_ctrl,int databits,int stopbits,int parity)
 {
 	struct termios settings;
-
+    int i;
 	int speeds[]={B57600,B76800,B115200,B38400,B19200,B9600,B4800,B2400,B1200,B300};
 	/*
 	*获取串口属性
@@ -42,7 +42,7 @@ int UART0_set(int fd,int speed,int flow_ctrl,int databits,int stopbits,int parit
 	/*
 	*设置波特率
 	*/
-	for(int i=0;i<sizeof(speeds)/sizeof(int);i++)
+	for(i=0;i<sizeof(speeds)/sizeof(int);i++)
 	{
 		if(speed == speeds[i])
 		{

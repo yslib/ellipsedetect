@@ -22,7 +22,7 @@ public:
 	 Com(char * file_name);
 	 void init(char * file_name);
 	 void set(int baud,int flow_ctrl,int databits,int stopbits,int parity);
-	 void send(int x,int y,int h_angle=-1,int v_hangle=-1);
+	 void send(int x,int y);
 	 int receive(char * rcv_buffer);
 	 void close();
 	~ Com();

@@ -9,6 +9,6 @@ INCLUDEPATH += . src src/qsLib
 
 # Input
 HEADERS += src/MainDlg.h src/V4L2.h src/qsLib/avilib.h src/qsLib/qsImgLib.h
-SOURCES += src/main.cpp src/V4L2.cpp
+SOURCES += src/main.cpp src/V4L2.cpp src/Ccom.cpp src/com.c
 LIBS += -L. -lqsImgLib 
 LIBS += -lopencv_core -lopencv_imgproc -lopencv_features2d  -lopencv_ml -lopencv_flann  -lopencv_photo  -lopencv_gpu 

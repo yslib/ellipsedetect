@@ -41,7 +41,7 @@ void Com::set(int baud,int flow_ctrl,int databits,int stopbits,int parity)
 		std::cerr<<"Can not find port\n";
 	}
 }
-void Com::send(int x,int y,int h_angle,int v_hangle)
+void Com::send(int x,int y)
 {
 	//send_buffer
 	//低位在前，高位在后 x,y
@@ -63,5 +63,5 @@ int Com::receive(char * rcv_buffer)
 }
 Com::~Com()
 {
-    ::close(_fd);
+    UART0_close(_fd);
 }
