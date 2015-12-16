@@ -1,7 +1,5 @@
 
 
-
-
 #include     <stdio.h>      /*标准输入输出定义*/
 #include     <stdlib.h>     /*标准函数库定义*/
 #include     <unistd.h>     /*Unix 标准函数定义*/
@@ -11,30 +9,13 @@
 #include     <termios.h>    /*PPSIX 终端控制定义*/
 #include     <errno.h>      /*错误号定义*/
 
-#define UART_DATABIT5 5
-#define UART_DATABIT6 6
-#define UART_DATABIT7 7
-#define UART_DATABIT8 8
 
-#define UART_PARITY_NON 0
-#define UART_PARITY_ODD	1
-#define UART_PARITY_EVE	2
-#define UART_PARITY_SPA 3
-
-#define UART_STOPBIT0 0
-#define UART_STOPBIT1 1
-
-#define UART_FLOWCTRL_NON 0
-#define UART_FLOWCTRL_HAR 1
-#define UART_FLOWCTRL_SOF 2
-
-
-int UART0_open(int fd,char * file_name)
+int UART0_open(char * file_name)
 {
 	/*
 	*
 	*/
-	fd=open(file_name,O_RDWR|O_NOCTTY|O_NDELAY);
+	int fd=open(file_name,O_RDWR|O_NOCTTY|O_NDELAY);
 
 	if(fd == -1)
 	{
@@ -191,8 +172,7 @@ int UART0_set(int fd,int speed,int flow_ctrl,int databits,int stopbits,int parit
 //
 int UART0_receive(int fd,char * rcv_buffer,int data_len)
 {
-	int len,fs_sel;
-
+	
 }
 //
 //send data
