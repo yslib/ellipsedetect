@@ -6,15 +6,16 @@
 //  Copyright © 2015年 杨朔柳. All rights reserved.
 //
 
-#define __ARM__
+#define __ARM_LINUX__
 
 #include <iostream>
-#include <opencv2/opencv.hpp>
+#include "opencv2/opencv.hpp"
 #include <vector>
 #include <queue>
 
-#ifdef __ARM__
+#ifdef __ARM_LINUX__
 #include "V4L2.h"
+#include "Ccom.h"       //串口通信类
 #endif
 
 
@@ -67,11 +68,18 @@ int main(int argc, const char * argv[])
     VideoCapture cam(0);
     Mat frame;
     IplImage trans;
-#elif defined __ARM__
+#elif defined __ARM_LINUX__
     V4L2_data v4l2Camara;
     memset(&v4l2Camara, 0, sizeof(V4L2_data));
     v4l2Camara.dev_name = (char *)("/dev/video0");
     int v4l2Code=init_dev(&v4l2Camara);
+    
+    Com comm("/dev/ttyS0");
+    comm.set(B115200,               //波特率
+             UART_FLOWCTRL_HAR,     //硬件流控制
+             UART_DATABIT8,         //8位数据位
+             UART_STOPBIT1,         //1位停止位
+             UART_PARITY_NON);      //无校验
 #endif
     
     //输入图像，灰度图像，二值图像，轮廓
@@ -97,7 +105,7 @@ int main(int argc, const char * argv[])
     cvNamedWindow("coutours");
     
     
-#elif defined __ARM__
+#elif defined __ARM_LINUX__
     if(v4l2Code < 0)
     {
         cerr<<"Can not open camara\n";
@@ -168,6 +176,17 @@ int main(int argc, const char * argv[])
                 target.push_back(current);
             }
         }
+        //对椭圆进行拟合并且输出坐标
+        for(int i=0;i<target.size();i++)
+        {
+            CvBox2D b = cvFitEllipse2(target[i]);
+            b.angle=90-b.angle;
+            int x=b.center.x;int y =b.center.y;
+#if defined(__ARM_LINUX__)
+            comm.send(x, y);
+#endif
+            cout<<"x,y"<<x<<","<<y<<endl;
+        }
 #ifdef __PC__
         for(int i=0;i<target.size();i++)
         {
@@ -220,12 +239,11 @@ int main(int argc, const char * argv[])
 	{
 	    read_code = 0;
 	}
-#elif defined (__ARM__)
+#elif defined (__ARM_LINUX__)
         read_code=read_frame(&v4l2Camara, (unsigned char *)input->imageData,NULL);
 #endif
         cvClearMemStorage(storage);
     }
-    
 #ifdef __PC__
     cvDestroyWindow("coutours");
 #endif

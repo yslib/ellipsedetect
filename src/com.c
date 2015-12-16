@@ -1,14 +1,6 @@
 
 
-#include     <stdio.h>      /*标准输入输出定义*/
-#include     <stdlib.h>     /*标准函数库定义*/
-#include     <unistd.h>     /*Unix 标准函数定义*/
-#include     <sys/types.h>  
-#include     <sys/stat.h>   
-#include     <fcntl.h>      /*文件控制定义*/
-#include     <termios.h>    /*PPSIX 终端控制定义*/
-#include     <errno.h>      /*错误号定义*/
-
+#include "com.h"
 
 int UART0_open(char * file_name)
 {
@@ -29,7 +21,7 @@ int UART0_open(char * file_name)
 	}
 
 }
-int UART0_close(int fd)
+void UART0_close(int fd)
 {
 	close(fd);
 }
@@ -97,13 +89,13 @@ int UART0_set(int fd,int speed,int flow_ctrl,int databits,int stopbits,int parit
 
 		case UART_PARITY_ODD:			//奇校验
 		settings.c_cflag |=PARENB;
-		settings.c_cflag |=PAROOD;
+		settings.c_cflag |=PARODD;
 		settings.c_iflag |=INPCK;
 		break;
 
 		case UART_PARITY_EVE:			//偶校验
 		settings.c_cflag |=PARENB;
-		settings.c_cflag &=~PAROOD;
+		settings.c_cflag &=~PARODD;
 		settings.c_iflag |=INPCK;
 
 		case UART_PARITY_SPA:			//空格校验
@@ -170,20 +162,20 @@ int UART0_set(int fd,int speed,int flow_ctrl,int databits,int stopbits,int parit
 //
 //receive data
 //
-int UART0_receive(int fd,char * rcv_buffer,int data_len)
+int UART0_receive(int fd,char * rcv_buffer,ssize_t data_len)
 {
-	
+    return 0;
 }
 //
 //send data
 //
-int UART0_send(int fd,char * send_buffer,int data_len)
+int UART0_send(int fd,char * send_buffer,ssize_t data_len)
 {
-	int len=0;
+	ssize_t len=0;
 	len=write(fd,send_buffer,data_len);
 	if(len == data_len)
 	{
-		return len;
+		return (int)len;
 	}
 	else
 	{

@@ -6,13 +6,13 @@ Com::Com()
 }
 Com::Com(char * file_name)
 {
-	Init(file_name);
+	init(file_name);
 }
-void Com::Init(char * file_name)
+void Com::init(char * file_name)
 {
 	if(_fd != -1)
 	{
-		_fd=UART0_open(file_name.c_str());
+		_fd=UART0_open(file_name);
 		if(_fd == -1)
 		{
 			std::cerr<<"open serial port failed\n";
@@ -27,9 +27,9 @@ void Com::set(int baud,int flow_ctrl,int databits,int stopbits,int parity)
 {
 	if(_fd != -1)
 	{
-		if(uart0_set(_fd,baud,flow_ctrl,databits,stopbits,parity) != -1)
+		if(UART0_set(_fd,baud,flow_ctrl,databits,stopbits,parity) != -1)
 		{
-			_baud=speed;
+			_baud=baud;
 			_flow_ctrl=flow_ctrl;
 			_databits=databits;
 			_stopbits=stopbits;
@@ -57,11 +57,11 @@ void Com::send(int x,int y,int h_angle,int v_hangle)
 
 	UART0_send(_fd,send_buffer,8);
 }
-int Com::receive()
+int Com::receive(char * rcv_buffer)
 {
-
+    return 0;
 }
 Com::~Com()
 {
-	close(_fd);
+    ::close(_fd);
 }

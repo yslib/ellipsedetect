@@ -3,6 +3,7 @@
 
 #include "com.h"
 #include <string>
+#include <iostream>
 
 class Com
 {
@@ -18,14 +19,14 @@ private:
 	char  rcv_buffer;
 public:
 	 Com();
-	 Com(std::string file_name);
-	 void init(std::string file_name);
-	 void set(int speed,int baud,int flow_ctrl,int databits,int stopbits,int parity);
+	 Com(char * file_name);
+	 void init(char * file_name);
+	 void set(int baud,int flow_ctrl,int databits,int stopbits,int parity);
 	 void send(int x,int y,int h_angle=-1,int v_hangle=-1);
 	 int receive(char * rcv_buffer);
 	 void close();
 	~ Com();
-
+    
 	/* data */
 };
 #endif /*_CCOM_H_*/
